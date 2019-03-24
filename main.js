@@ -255,6 +255,12 @@ const Z = () => {
 
   const SELECT = ({ name: { first, last }, guid, tags }) => {
     $(document).on("change", `#${guid}`, ({ target }) => {
+      const e = $.Event(`change.${guid}`);
+
+      $(target).trigger(e);
+
+      if (e.isDefaultPrevented()) return;
+
       validate(target, target.value.trim(), "不中啊！怎么说也得选一个 -_-!");
     });
 
@@ -279,6 +285,13 @@ const Z = () => {
 
   const INPUT = ({ name: { first, last }, guid }) => {
     $(document).on("focusout", `#${guid}`, ({ target }) => {
+      const e = $.Event(`focusout.${guid}`);
+
+      $(target).trigger(e);
+
+      // 如果用户在自定义事件中阻止了默认行为，将终止组件余下逻辑。
+      if (e.isDefaultPrevented()) return;
+
       validate(target, target.value.trim());
     });
 
@@ -351,3 +364,14 @@ const render = () => {
 };
 
 document.body.innerHTML = render();
+
+// 演示自定义事件能力
+$("#a3539000-5f65-4e98-921e-28c7edc3093e").on(
+  "focusout.a3539000-5f65-4e98-921e-28c7edc3093e",
+  event => {
+    // 阻止事件默认行为将终止组件默认的表单验证，并再这里执行自定义的验证。
+    event.preventDefault();
+    // eslint-disable-next-line no-console
+    console.log(`正在监听 ${event.target} 上注册的自定义事件。`);
+  }
+);
