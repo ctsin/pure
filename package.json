@@ -1,0 +1,6 @@
+{
+  "devDependencies": {
+    "eslint": "^5.15.3",
+    "eslint-config-prettier": "^4.1.0"
+  }
+}
