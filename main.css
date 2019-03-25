@@ -45,19 +45,13 @@ body {
   width: 50%;
 }
 
-.field > .col-3 {
-  width: 33.333333333333%;
-}
-
-.field > .col-4 {
-  width: 25%;
-}
-
 .control {
   position: relative;
+  z-index: 10;
 }
 
-.suffix {
+.control::before {
+  content: attr(data-suffix);
   position: absolute;
   top: 50%;
   right: 0.5rem;
@@ -65,6 +59,7 @@ body {
   font-size: 0.6rem;
   color: rgba(0, 0, 0, 0.5);
   user-select: none;
+  z-index: 5;
 }
 
 .label {

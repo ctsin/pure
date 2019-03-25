@@ -276,7 +276,6 @@ const Z = () => {
               `;
             })}
           </select>
-          <div class="suffix"></div>
         </div>
         <div class="invalid"></div>
       </div>
@@ -300,7 +299,6 @@ const Z = () => {
         ${(first || last) && label(`${first} ${last}`, guid)}
         <div class="control">
           <input class="input" id="${guid}" name="${guid}" type="text" />
-          <div class="suffix"></div>
         </div>
         <div class="invalid"></div>
       </div>
@@ -311,9 +309,8 @@ const Z = () => {
     return /*html*/ `
       <div class="field">
         ${(first || last) && label(`${first} ${last}`, guid)}
-        <div class="control">
+        <div class="control" data-suffix="必要">
           <input class="input" id="${guid}" name="${guid}" type="password" />
-          <div class="suffix">必要</div>
         </div>
         <div class="invalid"></div>
       </div>
