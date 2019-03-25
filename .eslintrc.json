@@ -1,4 +1,5 @@
 {
   "extends": ["eslint:recommended", "prettier"],
-  "env": { "es6": true, "browser": true, "jquery": true }
+  "env": { "es6": true, "browser": true, "jquery": true },
+  "globals": { "MOCK": "readonly" }
 }
