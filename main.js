@@ -242,14 +242,14 @@ const Z = () => {
     condition,
     message = "靓仔，你这个不能空着啊！"
   ) => {
-    const invalid = target.parentNode.parentNode.querySelector(".invalid");
+    const parent = target.parentNode;
 
     if (condition) {
-      invalid.classList.remove("in");
-      invalid.innerHTML = "";
+      parent.classList.remove("invalid");
+      parent.dataset.invalid = "";
     } else {
-      invalid.classList.add("in");
-      invalid.innerHTML = message;
+      parent.classList.add("invalid");
+      parent.dataset.invalid = message;
     }
   };
 
@@ -277,7 +277,6 @@ const Z = () => {
             })}
           </select>
         </div>
-        <div class="invalid"></div>
       </div>
     `;
   };
@@ -300,7 +299,6 @@ const Z = () => {
         <div class="control">
           <input class="input" id="${guid}" name="${guid}" type="text" />
         </div>
-        <div class="invalid"></div>
       </div>
     `;
   };
@@ -312,7 +310,6 @@ const Z = () => {
         <div class="control" data-suffix="必要">
           <input class="input" id="${guid}" name="${guid}" type="password" />
         </div>
-        <div class="invalid"></div>
       </div>
     `;
   };
@@ -336,7 +333,6 @@ const Z = () => {
                 .join("")
             : units(friends)
         }
-        <div class="invalid"></div>
       </div>
     `;
   };
@@ -366,9 +362,9 @@ document.body.innerHTML = render();
 $("#a3539000-5f65-4e98-921e-28c7edc3093e").on(
   "focusout.a3539000-5f65-4e98-921e-28c7edc3093e",
   event => {
-    // 阻止事件默认行为将终止组件默认的表单验证，并再这里执行自定义的验证。
+    // 阻止事件默认行为将终止第二个表单的验证，并有机会在这里执行自定义的验证。
     event.preventDefault();
     // eslint-disable-next-line no-console
-    console.log(`正在监听 ${event.target} 上注册的自定义事件。`);
+    console.log(`正在监听自定义事件，事件目标`, event.target);
   }
 );
