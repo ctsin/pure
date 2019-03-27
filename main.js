@@ -3,9 +3,9 @@ const Z = () => {
    * 渲染 <label /> 视图
    * @access private
    */
-  const label = (label, htmlFor) => {
+  const label = (label, guid) => {
     return /*html*/ `
-      <label class="label" for="${htmlFor}">${label}</label>
+      <label class="label" for="${guid}">${label}</label>
     `;
   };
 
@@ -49,11 +49,13 @@ const Z = () => {
         <div class="control">
           <select class="select" name="${guid}" id="${guid}">
             <option value="">请选择</option>
-            ${tags.map(tag => {
-              return /*html*/ `
+            ${tags
+              .map(tag => {
+                return /*html*/ `
                 <option value="${tag}">${tag}</option>
               `;
-            })}
+              })
+              .join("")}
           </select>
         </div>
       </div>
@@ -66,7 +68,6 @@ const Z = () => {
 
       $(target).trigger(e);
 
-      // 如果用户在自定义事件中阻止了默认行为，将终止组件余下逻辑。
       if (e.isDefaultPrevented()) return;
 
       validate(target, target.value.trim());

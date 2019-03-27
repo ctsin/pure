@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 const MOCK = [
   {
     _id: "5c9577cb15f9f37b1473124f",
@@ -219,3 +218,5 @@ const MOCK = [
     type: "PASSWORD"
   }
 ];
+
+window.MOCK = MOCK;
