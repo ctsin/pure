@@ -1,5 +1,7 @@
 {
+  "parserOptions": { "ecmaVersion": 2018 },
   "extends": ["eslint:recommended", "prettier"],
   "env": { "es6": true, "browser": true, "jquery": true },
-  "globals": { "MOCK": "readonly" }
+  "globals": { "MOCK": "readonly" },
+  "rules": { "no-console": "off" }
 }

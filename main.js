@@ -32,7 +32,7 @@ const Z = () => {
     }
   };
 
-  const SELECT = ({ name: { first, last }, guid, tags }) => {
+  const select = ({ name, guid, tags }) => {
     $(document).on("change", `#${guid}`, ({ target }) => {
       const e = $.Event(`change.${guid}`);
 
@@ -45,16 +45,16 @@ const Z = () => {
 
     return /*html*/ `
       <div class="field">
-        ${(first || last) && label(`${first} ${last}`, guid)}
+        ${name && label(name, guid)}
         <div class="control">
           <select class="select" name="${guid}" id="${guid}">
             <option value="">请选择</option>
             ${tags
-              .map(tag => {
-                return /*html*/ `
-                <option value="${tag}">${tag}</option>
-              `;
-              })
+              .map(
+                tag => /*html*/ `
+                  <option value="${tag}">${tag}</option>
+                `
+              )
               .join("")}
           </select>
         </div>
@@ -62,7 +62,7 @@ const Z = () => {
     `;
   };
 
-  const INPUT = ({ name: { first, last }, guid }) => {
+  const input = ({ name, guid, type }) => {
     $(document).on("focusout", `#${guid}`, ({ target }) => {
       const e = $.Event(`focusout.${guid}`);
 
@@ -75,26 +75,26 @@ const Z = () => {
 
     return /*html*/ `
       <div class="field">
-        ${(first || last) && label(`${first} ${last}`, guid)}
+        ${name && label(name, guid)}
         <div class="control">
-          <input class="input" id="${guid}" name="${guid}" type="text" />
+          <input
+            class="input"
+            id="${guid}"
+            name="${guid}"
+            type="${type.toLowerCase() === "input" ? "text" : type}"
+          />
         </div>
       </div>
     `;
   };
 
-  const PASSWORD = ({ name: { first, last }, guid }) => {
-    return /*html*/ `
-      <div class="field">
-        ${(first || last) && label(`${first} ${last}`, guid)}
-        <div class="control" data-suffix="必要">
-          <input class="input" id="${guid}" name="${guid}" type="password" />
-        </div>
-      </div>
-    `;
-  };
+  const password = data => input(data);
 
-  const CHECKBOX = ({ friends }) => {
+  const number = data => input(data);
+
+  const tel = data => input(data);
+
+  const checkbox = ({ friends }) => {
     const units = ({ id, name }) => /*html*/ `
       <input id="${id}" name="${id}" type="checkbox" />
       ${name && label(`${name}`, id)}
@@ -117,34 +117,38 @@ const Z = () => {
     `;
   };
 
-  return { SELECT, INPUT, PASSWORD, CHECKBOX };
+  return {
+    select,
+    input,
+    password,
+    number,
+    tel,
+    checkbox
+  };
 };
 
-const render = () => {
+const form = (data, { id, onSubmit = formData => console.log(formData) }) => {
   const inputs = Z();
 
+  $(document).on("submit", `#${id}`, event => {
+    event.preventDefault();
+
+    const formData = new FormData(event.target);
+
+    onSubmit(formData);
+  });
+
   return /*html*/ `
-    <form class="form ">
-      ${MOCK.map(data => {
-        return /*html*/ `
-          ${inputs[data.type](data)}
-        `;
-      }).join("")}
+    <form class="form" id="${id}" novalidate>
+      ${data
+        .map(input => {
+          return inputs[input.type](input);
+        })
+        .join("")}
 
       <button class="button" type="submit">提交</button>
     </form>
   `;
 };
 
-document.getElementById("root").innerHTML = render();
-
-// 演示自定义事件能力
-$("#a3539000-5f65-4e98-921e-28c7edc3093e").on(
-  "focusout.a3539000-5f65-4e98-921e-28c7edc3093e",
-  event => {
-    // 阻止事件默认行为将终止第二个表单的验证，并有机会在这里执行自定义的验证。
-    event.preventDefault();
-    // eslint-disable-next-line no-console
-    console.log(`正在监听自定义事件，事件目标`, event.target);
-  }
-);
+document.getElementById("root").innerHTML = form(MOCK, { id: "signup" });
