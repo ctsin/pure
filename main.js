@@ -36,21 +36,16 @@ const Z = () => {
   };
 
   const select = ({ name, guid, tags }) => {
-    $(document).on("change", `#${guid}`, ({ target }) => {
-      const e = $.Event(`change.${guid}`);
-
-      $(target).trigger(e);
-
-      if (e.isDefaultPrevented()) return;
-
+    const change = ({ target }) => {
       validate(target, target.value.trim(), "不中啊！怎么说也得选一个 -_-!");
-    });
+    };
 
     return html`
       <div class="field">
         ${name && label(name, guid)}
+
         <div class="control">
-          <select class="select" name="${guid}" id="${guid}">
+          <select @change=${change} class="select" name="${guid}" id="${guid}">
             <option value="">请选择</option>
             ${tags.map(
               tag => html`
@@ -64,21 +59,17 @@ const Z = () => {
   };
 
   const input = ({ name, guid, type }) => {
-    $(document).on("focusout", `#${guid}`, ({ target }) => {
-      const e = $.Event(`focusout.${guid}`);
-
-      $(target).trigger(e);
-
-      if (e.isDefaultPrevented()) return;
-
+    const blur = ({ target }) => {
       validate(target, target.value.trim());
-    });
+    };
 
     return html`
       <div class="field">
         ${name && label(name, guid)}
+
         <div class="control">
           <input
+            @blur=${blur}
             class="input"
             id="${guid}"
             name="${guid}"
@@ -98,6 +89,7 @@ const Z = () => {
   const checkbox = ({ friends }) => {
     const units = ({ id, name }) => html`
       <input id="${id}" name="${id}" type="checkbox" />
+
       ${name && label(`${name}`, id)}
     `;
 
@@ -127,16 +119,16 @@ const Z = () => {
 const form = (data, { id, onSubmit = formData => console.log(formData) }) => {
   const inputs = Z();
 
-  $(document).on("submit", `#${id}`, event => {
+  const submit = event => {
     event.preventDefault();
 
     const formData = new FormData(event.target);
 
     onSubmit(formData);
-  });
+  };
 
   return html`
-    <form class="form" id="${id}" novalidate>
+    <form class="form" id="${id}" @submit=${submit}>
       ${data.map(input => {
         return inputs[input.type](input);
       })}
