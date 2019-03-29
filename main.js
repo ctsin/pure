@@ -48,9 +48,10 @@ const Z = () => {
           <select @change=${change} class="select" name="${guid}" id="${guid}">
             <option value="">请选择</option>
             ${tags.map(
-              tag => html`
-                <option value="${tag}">${tag}</option>
-              `
+              tag =>
+                html`
+                  <option value="${tag}">${tag}</option>
+                `
             )}
           </select>
         </div>
@@ -129,9 +130,7 @@ const form = (data, { id, onSubmit = formData => console.log(formData) }) => {
 
   return html`
     <form class="form" id="${id}" @submit=${submit}>
-      ${data.map(input => {
-        return inputs[input.type](input);
-      })}
+      ${data.map(input => inputs[input.type](input))}
 
       <button class="button" type="submit">提交</button>
     </form>
