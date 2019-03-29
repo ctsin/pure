@@ -1,8 +1,4 @@
 {
   // 推荐的扩展
-  "recommendations": [
-    "tobermory.es6-string-html",
-    "dbaeumer.vscode-eslint",
-    "bierner.lit-html"
-  ]
+  "recommendations": ["dbaeumer.vscode-eslint", "bierner.lit-html"]
 }
