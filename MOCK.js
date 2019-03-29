@@ -1,4 +1,4 @@
-const MOCK = [
+export const MOCK = [
   {
     _id: "5c9577cb15f9f37b1473124f",
     index: 4,
@@ -53,5 +53,3 @@ const MOCK = [
     type: "password"
   }
 ];
-
-window.MOCK = MOCK;

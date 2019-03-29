@@ -1,10 +1,13 @@
+import { html, render } from "https://unpkg.com/lit-html?module";
+import { MOCK } from "./MOCK.js";
+
 const Z = () => {
   /**
    * 渲染 <label /> 视图
    * @access private
    */
   const label = (label, guid) => {
-    return /*html*/ `
+    return html`
       <label class="label" for="${guid}">${label}</label>
     `;
   };
@@ -43,19 +46,17 @@ const Z = () => {
       validate(target, target.value.trim(), "不中啊！怎么说也得选一个 -_-!");
     });
 
-    return /*html*/ `
+    return html`
       <div class="field">
         ${name && label(name, guid)}
         <div class="control">
           <select class="select" name="${guid}" id="${guid}">
             <option value="">请选择</option>
-            ${tags
-              .map(
-                tag => /*html*/ `
-                  <option value="${tag}">${tag}</option>
-                `
-              )
-              .join("")}
+            ${tags.map(
+              tag => html`
+                <option value="${tag}">${tag}</option>
+              `
+            )}
           </select>
         </div>
       </div>
@@ -73,7 +74,7 @@ const Z = () => {
       validate(target, target.value.trim());
     });
 
-    return /*html*/ `
+    return html`
       <div class="field">
         ${name && label(name, guid)}
         <div class="control">
@@ -95,24 +96,20 @@ const Z = () => {
   const tel = data => input(data);
 
   const checkbox = ({ friends }) => {
-    const units = ({ id, name }) => /*html*/ `
+    const units = ({ id, name }) => html`
       <input id="${id}" name="${id}" type="checkbox" />
       ${name && label(`${name}`, id)}
     `;
 
-    return /*html*/ `
+    return html`
       <div class="field">
-        ${
-          Array.isArray(friends)
-            ? friends
-                .map(friend => {
-                  return /*html*/ `
-                  <div class="col-${friends.length}">${units(friend)}</div>
-                `;
-                })
-                .join("")
-            : units(friends)
-        }
+        ${Array.isArray(friends)
+          ? friends.map(friend => {
+              return html`
+                <div class="col-${friends.length}">${units(friend)}</div>
+              `;
+            })
+          : units(friends)}
       </div>
     `;
   };
@@ -138,17 +135,15 @@ const form = (data, { id, onSubmit = formData => console.log(formData) }) => {
     onSubmit(formData);
   });
 
-  return /*html*/ `
+  return html`
     <form class="form" id="${id}" novalidate>
-      ${data
-        .map(input => {
-          return inputs[input.type](input);
-        })
-        .join("")}
+      ${data.map(input => {
+        return inputs[input.type](input);
+      })}
 
       <button class="button" type="submit">提交</button>
     </form>
   `;
 };
 
-document.getElementById("root").innerHTML = form(MOCK, { id: "signup" });
+render(form(MOCK, { id: "signup" }), document.getElementById("root"));
