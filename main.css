@@ -62,15 +62,15 @@ body {
   z-index: 5;
 }
 
-.invalid::after {
+.control:not([data-invalid=""])::after {
   content: attr(data-invalid);
   display: block;
   margin-top: 0.25rem;
   color: brown;
 }
 
-.invalid > .input,
-.invalid > .select {
+.control:not([data-invalid=""]) > .input,
+.control:not([data-invalid=""]) > .select {
   border: 1px solid brown;
 }
 
