@@ -53,7 +53,7 @@ body {
 .control::before {
   content: attr(data-suffix);
   position: absolute;
-  top: 50%;
+  top: 0.95rem;
   right: 0.5rem;
   transform: translate3d(0, -50%, 0);
   font-size: 0.6rem;
@@ -63,13 +63,15 @@ body {
 }
 
 .invalid::after {
+  content: attr(data-invalid);
   display: block;
   margin-top: 0.25rem;
   color: brown;
 }
 
-.invalid::after {
-  content: attr(data-invalid);
+.invalid > .input,
+.invalid > .select {
+  border: 1px solid brown;
 }
 
 .label {
