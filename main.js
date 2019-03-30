@@ -59,7 +59,7 @@ const Z = () => {
     `;
   };
 
-  const input = ({ name, guid, type }) => {
+  const input = ({ name, guid, suffix, type }) => {
     const blur = ({ target }) => {
       validate(target, target.value.trim());
     };
@@ -68,7 +68,7 @@ const Z = () => {
       <div class="field">
         ${name && label(name, guid)}
 
-        <div class="control">
+        <div class="control" data-suffix=${suffix ? suffix : ""}>
           <input
             @blur=${blur}
             class="input"
