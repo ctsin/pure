@@ -50,7 +50,7 @@ body {
   z-index: 10;
 }
 
-.control::before {
+.control:not([data-suffix=""])::before {
   content: attr(data-suffix);
   position: absolute;
   top: 0.95rem;
