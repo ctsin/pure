@@ -125,7 +125,7 @@ const Z = () => {
   };
 };
 
-const form = (data, { id, onSubmit = formData => console.log(formData) }) => {
+const form = ({ data, id, onSubmit = formData => console.log(formData) }) => {
   const inputs = Z();
 
   const submit = ({ preventDefault, target }) => {
@@ -145,4 +145,4 @@ const form = (data, { id, onSubmit = formData => console.log(formData) }) => {
   `;
 };
 
-render(form(MOCK, { id: "signup" }), document.getElementById("root"));
+render(form({ data: MOCK, id: "signup" }), document.getElementById("root"));
