@@ -1,40 +1,40 @@
-import { html, render } from "https://unpkg.com/lit-html?module";
-import { MOCK } from "./MOCK.js";
+import { html, render, TemplateResult } from "lit-html";
+import { MOCK } from "./MOCK";
 
+// 支持的验证选项
+enum RULES {
+  必选
+}
+
+// 表单验证方法接口
+interface Validate {
+  (
+    target: HTMLInputElement | HTMLSelectElement,
+    rule: RULES,
+    message?: string
+  ): void;
+}
+
+// <label /> 视图渲染方法接口
+interface Label {
+  (label: string, guid: string): TemplateResult;
+}
+
+// 表单控件工厂
 const Z = () => {
-  /**
-   * 表单验证规则
-   * @readonly
-   * @enum {string}
-   */
-  const RULES = {
-    REQUIRED: "required"
-  };
-
-  /**
-   * 渲染 <label /> 视图
-   * @access private
-   */
-  const label = (label, guid) => {
+  const label: Label = (label, guid) => {
     return html`
       <label class="label" for=${guid}>${label}</label>
     `;
   };
 
-  /**
-   * 验证表单方法
-   * @access private
-   * @param {HTMLElement} target - 触发验证的表单控件
-   * @param {string} rule - 用于验证表单的条件；
-   * @param {string} [message] - 验证失败时的错误提示
-   */
-  const validate = (
+  const validate: Validate = (
     { parentElement: parent, value },
     rule,
     message = "靓仔，你这个不能空着啊！"
   ) => {
     switch (rule) {
-      case RULES.REQUIRED:
+      case RULES.必选:
         parent.dataset.invalid = value.trim() ? "" : message;
         break;
 
@@ -45,7 +45,7 @@ const Z = () => {
 
   const select = ({ name, guid, tags }) => {
     const change = ({ target }) => {
-      validate(target, RULES.REQUIRED, "不中啊！怎么说也得选一个 -_-!");
+      validate(target, RULES.必选, "不中啊！怎么说也得选一个 -_-!");
     };
 
     return html`
@@ -69,7 +69,7 @@ const Z = () => {
 
   const input = ({ name, guid, suffix, type }) => {
     const blur = ({ target }) => {
-      validate(target, RULES.REQUIRED);
+      validate(target, RULES.必选);
     };
 
     return html`

@@ -50,7 +50,7 @@ export const MOCK = [
     index: 9,
     guid: "b92fd3d3-028d-4151-8c8d-68092848ebb6",
     name: "Deleon Hansen",
-    suffix: "必要项",
+    suffix: "后缀演示",
     type: "password"
   }
 ];
