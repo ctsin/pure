@@ -105,11 +105,12 @@ const Z = () => {
     return html`
       <div class="field">
         ${Array.isArray(friends)
-          ? friends.map(friend => {
-              return html`
-                <div class="col-${friends.length}">${units(friend)}</div>
-              `;
-            })
+          ? friends.map(
+              friend =>
+                html`
+                  <div class="col-${friends.length}">${units(friend)}</div>
+                `
+            )
           : units(friends)}
       </div>
     `;

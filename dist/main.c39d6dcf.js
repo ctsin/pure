@@ -1880,7 +1880,7 @@ var Z = function Z() {
     };
 
     return lit_html_1.html(templateObject_7 || (templateObject_7 = __makeTemplateObject(["\n      <div class=\"field\">\n        ", "\n      </div>\n    "], ["\n      <div class=\"field\">\n        ", "\n      </div>\n    "])), Array.isArray(friends) ? friends.map(function (friend) {
-      return lit_html_1.html(templateObject_6 || (templateObject_6 = __makeTemplateObject(["\n                <div class=\"col-", "\">", "</div>\n              "], ["\n                <div class=\"col-", "\">", "</div>\n              "])), friends.length, units(friend));
+      return lit_html_1.html(templateObject_6 || (templateObject_6 = __makeTemplateObject(["\n                  <div class=\"col-", "\">", "</div>\n                "], ["\n                  <div class=\"col-", "\">", "</div>\n                "])), friends.length, units(friend));
     }) : units(friends));
   };
 
@@ -1949,7 +1949,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53405" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64385" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
