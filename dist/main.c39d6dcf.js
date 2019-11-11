@@ -1949,92 +1949,87 @@ var RULES;
 })(RULES || (RULES = {})); // 表单控件工厂
 
 
-var Z = function Z() {
-  var label = function label(_label, guid) {
-    return lit_html_1.html(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n      <label class=\"label\" for=", ">", "</label>\n    "], ["\n      <label class=\"label\" for=", ">", "</label>\n    "])), guid, _label);
+var Z = {};
+
+var label = function label(_label, guid) {
+  return lit_html_1.html(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n    <label class=\"label\" for=", ">", "</label>\n  "], ["\n    <label class=\"label\" for=", ">", "</label>\n  "])), guid, _label);
+};
+
+var validate = function validate(_a, rule, message) {
+  var parent = _a.parentElement,
+      value = _a.value;
+
+  if (message === void 0) {
+    message = "靓仔，你这个不能空着啊！";
+  }
+
+  switch (rule) {
+    case RULES.必选:
+      parent.dataset.invalid = value.trim() ? "" : message;
+      break;
+
+    default:
+      throw new Error("\u5C1A\u672A\u5B9A\u4E49 " + rule + " \u7C7B\u578B\u7684\u6821\u9A8C\u89C4\u5219\uFF01");
+  }
+};
+
+Z.select = function (_a) {
+  var name = _a.name,
+      guid = _a.guid,
+      tags = _a.tags;
+
+  var change = function change(_a) {
+    var target = _a.target;
+    validate(target, RULES.必选, "不中啊！怎么说也得选一个 -_-!");
   };
 
-  var validate = function validate(_a, rule, message) {
-    var parent = _a.parentElement,
-        value = _a.value;
+  return lit_html_1.html(templateObject_3 || (templateObject_3 = __makeTemplateObject(["\n    <div class=\"field\">\n      ", "\n\n      <div class=\"control\" data-invalid>\n        <select @change=", " class=\"select\" name=", " id=", ">\n          <option value=\"\">\u8BF7\u9009\u62E9</option>\n          ", "\n        </select>\n      </div>\n    </div>\n  "], ["\n    <div class=\"field\">\n      ", "\n\n      <div class=\"control\" data-invalid>\n        <select @change=", " class=\"select\" name=", " id=", ">\n          <option value=\"\">\u8BF7\u9009\u62E9</option>\n          ", "\n        </select>\n      </div>\n    </div>\n  "])), name && label(name, guid), change, guid, guid, tags.map(function (tag) {
+    return lit_html_1.html(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n                <option value=", ">", "</option>\n              "], ["\n                <option value=", ">", "</option>\n              "])), tag, tag);
+  }));
+};
 
-    if (message === void 0) {
-      message = "靓仔，你这个不能空着啊！";
-    }
+var inputConstructor = function inputConstructor(_a) {
+  var name = _a.name,
+      guid = _a.guid,
+      suffix = _a.suffix,
+      type = _a.type;
 
-    switch (rule) {
-      case RULES.必选:
-        parent.dataset.invalid = value.trim() ? "" : message;
-        break;
-
-      default:
-        throw new Error("\u5C1A\u672A\u5B9A\u4E49 " + rule + " \u7C7B\u578B\u7684\u6821\u9A8C\u89C4\u5219\uFF01");
-    }
+  var blur = function blur(_a) {
+    var target = _a.target;
+    validate(target, RULES.必选);
   };
 
-  var select = function select(_a) {
-    var name = _a.name,
-        guid = _a.guid,
-        tags = _a.tags;
+  return lit_html_1.html(templateObject_4 || (templateObject_4 = __makeTemplateObject(["\n    <div class=\"field\">\n      ", "\n\n      <div class=\"control\" data-suffix=", " data-invalid>\n        <input\n          @blur=", "\n          class=\"input\"\n          id=", "\n          name=", "\n          type=", "\n        />\n      </div>\n    </div>\n  "], ["\n    <div class=\"field\">\n      ", "\n\n      <div class=\"control\" data-suffix=", " data-invalid>\n        <input\n          @blur=", "\n          class=\"input\"\n          id=", "\n          name=", "\n          type=", "\n        />\n      </div>\n    </div>\n  "])), name && label(name, guid), suffix ? suffix : "", blur, guid, guid, type.toLowerCase() === "input" ? "text" : type);
+};
 
-    var change = function change(_a) {
-      var target = _a.target;
-      validate(target, RULES.必选, "不中啊！怎么说也得选一个 -_-!");
-    };
+Z.input = function (data) {
+  return inputConstructor(data);
+};
 
-    return lit_html_1.html(templateObject_3 || (templateObject_3 = __makeTemplateObject(["\n      <div class=\"field\">\n        ", "\n\n        <div class=\"control\" data-invalid>\n          <select @change=", " class=\"select\" name=", " id=", ">\n            <option value=\"\">\u8BF7\u9009\u62E9</option>\n            ", "\n          </select>\n        </div>\n      </div>\n    "], ["\n      <div class=\"field\">\n        ", "\n\n        <div class=\"control\" data-invalid>\n          <select @change=", " class=\"select\" name=", " id=", ">\n            <option value=\"\">\u8BF7\u9009\u62E9</option>\n            ", "\n          </select>\n        </div>\n      </div>\n    "])), name && label(name, guid), change, guid, guid, tags.map(function (tag) {
-      return lit_html_1.html(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n                  <option value=", ">", "</option>\n                "], ["\n                  <option value=", ">", "</option>\n                "])), tag, tag);
-    }));
+Z.password = function (data) {
+  return inputConstructor(data);
+};
+
+Z.number = function (data) {
+  return inputConstructor(data);
+};
+
+Z.tel = function (data) {
+  return inputConstructor(data);
+};
+
+Z.checkbox = function (_a) {
+  var friends = _a.friends;
+
+  var units = function units(_a) {
+    var id = _a.id,
+        name = _a.name;
+    return lit_html_1.html(templateObject_5 || (templateObject_5 = __makeTemplateObject(["\n    <input id=", " name=", " type=\"checkbox\" />\n\n    ", "\n  "], ["\n    <input id=", " name=", " type=\"checkbox\" />\n\n    ", "\n  "])), id, id, name && label(name, id));
   };
 
-  var input = function input(_a) {
-    var name = _a.name,
-        guid = _a.guid,
-        suffix = _a.suffix,
-        type = _a.type;
-
-    var blur = function blur(_a) {
-      var target = _a.target;
-      validate(target, RULES.必选);
-    };
-
-    return lit_html_1.html(templateObject_4 || (templateObject_4 = __makeTemplateObject(["\n      <div class=\"field\">\n        ", "\n\n        <div class=\"control\" data-suffix=", " data-invalid>\n          <input\n            @blur=", "\n            class=\"input\"\n            id=", "\n            name=", "\n            type=", "\n          />\n        </div>\n      </div>\n    "], ["\n      <div class=\"field\">\n        ", "\n\n        <div class=\"control\" data-suffix=", " data-invalid>\n          <input\n            @blur=", "\n            class=\"input\"\n            id=", "\n            name=", "\n            type=", "\n          />\n        </div>\n      </div>\n    "])), name && label(name, guid), suffix ? suffix : "", blur, guid, guid, type.toLowerCase() === "input" ? "text" : type);
-  };
-
-  var password = function password(data) {
-    return input(data);
-  };
-
-  var number = function number(data) {
-    return input(data);
-  };
-
-  var tel = function tel(data) {
-    return input(data);
-  };
-
-  var checkbox = function checkbox(_a) {
-    var friends = _a.friends;
-
-    var units = function units(_a) {
-      var id = _a.id,
-          name = _a.name;
-      return lit_html_1.html(templateObject_5 || (templateObject_5 = __makeTemplateObject(["\n      <input id=", " name=", " type=\"checkbox\" />\n\n      ", "\n    "], ["\n      <input id=", " name=", " type=\"checkbox\" />\n\n      ", "\n    "])), id, id, name && label(name, id));
-    };
-
-    return lit_html_1.html(templateObject_7 || (templateObject_7 = __makeTemplateObject(["\n      <div class=\"field\">\n        ", "\n      </div>\n    "], ["\n      <div class=\"field\">\n        ", "\n      </div>\n    "])), Array.isArray(friends) ? friends.map(function (friend) {
-      return lit_html_1.html(templateObject_6 || (templateObject_6 = __makeTemplateObject(["\n                  <div class=\"col-", "\">", "</div>\n                "], ["\n                  <div class=\"col-", "\">", "</div>\n                "])), friends.length, units(friend));
-    }) : units(friends));
-  };
-
-  return {
-    select: select,
-    input: input,
-    number: number,
-    tel: tel,
-    checkbox: checkbox,
-    password: password
-  };
+  return lit_html_1.html(templateObject_7 || (templateObject_7 = __makeTemplateObject(["\n    <div class=\"field\">\n      ", "\n    </div>\n  "], ["\n    <div class=\"field\">\n      ", "\n    </div>\n  "])), Array.isArray(friends) ? friends.map(function (friend) {
+    return lit_html_1.html(templateObject_6 || (templateObject_6 = __makeTemplateObject(["\n                <div class=\"col-", "\">", "</div>\n              "], ["\n                <div class=\"col-", "\">", "</div>\n              "])), friends.length, units(friend));
+  }) : units(friends));
 };
 
 var form = function form(_a) {
@@ -2044,7 +2039,6 @@ var form = function form(_a) {
       onSubmit = _b === void 0 ? function (formData) {
     return console.log(formData);
   } : _b;
-  var inputs = Z();
 
   var submit = function submit(event) {
     event.preventDefault();
@@ -2053,7 +2047,7 @@ var form = function form(_a) {
   };
 
   return lit_html_1.html(templateObject_8 || (templateObject_8 = __makeTemplateObject(["\n    <form class=\"form\" id=", " @submit=", ">\n      ", "\n\n      <button class=\"button\" type=\"submit\">\u63D0\u4EA4</button>\n    </form>\n  "], ["\n    <form class=\"form\" id=", " @submit=", ">\n      ", "\n\n      <button class=\"button\" type=\"submit\">\u63D0\u4EA4</button>\n    </form>\n  "])), id, submit, data.map(function (input) {
-    return inputs[input.type](input);
+    return Z[input.type](input);
   }));
 };
 
