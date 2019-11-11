@@ -2046,11 +2046,9 @@ var form = function form(_a) {
   } : _b;
   var inputs = Z();
 
-  var submit = function submit(_a) {
-    var preventDefault = _a.preventDefault,
-        target = _a.target;
-    preventDefault();
-    var formData = new FormData(target);
+  var submit = function submit(event) {
+    event.preventDefault();
+    var formData = new FormData(event.target);
     onSubmit(formData);
   };
 
@@ -2092,7 +2090,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62711" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62850" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

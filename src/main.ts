@@ -129,10 +129,10 @@ const Z = () => {
 const form = ({ data, id, onSubmit = formData => console.log(formData) }) => {
   const inputs = Z();
 
-  const submit = ({ preventDefault, target }) => {
-    preventDefault();
+  const submit: EventListener = event => {
+    event.preventDefault();
 
-    const formData = new FormData(target);
+    const formData = new FormData(event.target as HTMLFormElement);
 
     onSubmit(formData);
   };
