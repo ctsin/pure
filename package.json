@@ -11,7 +11,7 @@
   },
   "scripts": {
     "start": "parcel src/index.html",
-    "build": "parcel build src/index.html -d docs"
+    "build": "parcel build src/index.html -d docs --public-url /pure"
   },
   "devDependencies": {
     "eslint": "^6.6.0",
