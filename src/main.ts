@@ -26,9 +26,6 @@ type ZFactory = Record<
   ZComponents
 >;
 
-// 表单控件工厂
-const Z: ZFactory = {} as ZFactory;
-
 const label: Label = (label, guid) => {
   return html`
     <label class="label" for=${guid}>${label}</label>
@@ -50,7 +47,7 @@ const validate: Validate = (
   }
 };
 
-Z.select = ({ name, guid, tags }) => {
+const select = ({ name, guid, tags }) => {
   const change = ({ target }) => {
     validate(target, RULES.必选, "不中啊！怎么说也得选一个 -_-!");
   };
@@ -96,15 +93,15 @@ const inputConstructor: ZComponents = ({ name, guid, suffix, type }) => {
   `;
 };
 
-Z.input = data => inputConstructor(data);
+const input = data => inputConstructor(data);
 
-Z.password = data => inputConstructor(data);
+const password = data => inputConstructor(data);
 
-Z.number = data => inputConstructor(data);
+const number = data => inputConstructor(data);
 
-Z.tel = data => inputConstructor(data);
+const tel = data => inputConstructor(data);
 
-Z.checkbox = ({ friends }) => {
+const checkbox = ({ friends }) => {
   const units = ({ id, name }) => html`
     <input id=${id} name=${id} type="checkbox" />
 
@@ -123,6 +120,16 @@ Z.checkbox = ({ friends }) => {
         : units(friends)}
     </div>
   `;
+};
+
+// 表单控件工厂
+const Z: ZFactory = {
+  select,
+  input,
+  password,
+  number,
+  tel,
+  checkbox
 };
 
 const form = ({ data, id, onSubmit = formData => console.log(formData) }) => {
