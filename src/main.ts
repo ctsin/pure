@@ -7,18 +7,14 @@ enum RULES {
 }
 
 // 表单验证方法接口
-interface Validate {
-  (
-    target: HTMLInputElement | HTMLSelectElement,
-    rule: RULES,
-    message?: string
-  ): void;
-}
+type Validate = (
+  target: HTMLInputElement | HTMLSelectElement,
+  rule: RULES,
+  message?: string
+) => void;
 
 // <label /> 视图渲染方法接口
-interface Label {
-  (label: string, guid: string): TemplateResult;
-}
+type LabelControl = (label: string, guid: string) => TemplateResult;
 
 type ZComponents = (data: any) => TemplateResult;
 type ZFactory = Record<
@@ -26,13 +22,13 @@ type ZFactory = Record<
   ZComponents
 >;
 
-const label: Label = (label, guid) => {
+const labelControl: LabelControl = (label, guid) => {
   return html`
     <label class="label" for=${guid}>${label}</label>
   `;
 };
 
-const validate: Validate = (
+const validator: Validate = (
   { parentElement: parent, value },
   rule,
   message = "靓仔，你这个不能空着啊！"
@@ -47,14 +43,14 @@ const validate: Validate = (
   }
 };
 
-const select = ({ name, guid, tags }) => {
+const selectControl = ({ name, guid, tags }) => {
   const change = ({ target }) => {
-    validate(target, RULES.必选, "不中啊！怎么说也得选一个 -_-!");
+    validator(target, RULES.必选, "不中啊！怎么说也得选一个 -_-!");
   };
 
   return html`
     <div class="field">
-      ${name && label(name, guid)}
+      ${name && labelControl(name, guid)}
 
       <div class="control" data-invalid>
         <select @change=${change} class="select" name=${guid} id=${guid}>
@@ -71,14 +67,14 @@ const select = ({ name, guid, tags }) => {
   `;
 };
 
-const inputConstructor: ZComponents = ({ name, guid, suffix, type }) => {
+const inputControlConstructor: ZComponents = ({ name, guid, suffix, type }) => {
   const blur = ({ target }) => {
-    validate(target, RULES.必选);
+    validator(target, RULES.必选);
   };
 
   return html`
     <div class="field">
-      ${name && label(name, guid)}
+      ${name && labelControl(name, guid)}
 
       <div class="control" data-suffix=${suffix ? suffix : ""} data-invalid>
         <input
@@ -93,19 +89,19 @@ const inputConstructor: ZComponents = ({ name, guid, suffix, type }) => {
   `;
 };
 
-const input = data => inputConstructor(data);
+const inputControl = data => inputControlConstructor(data);
 
-const password = data => inputConstructor(data);
+const passwordControl = data => inputControlConstructor(data);
 
-const number = data => inputConstructor(data);
+const numberControl = data => inputControlConstructor(data);
 
-const tel = data => inputConstructor(data);
+const telControl = data => inputControlConstructor(data);
 
-const checkbox = ({ friends }) => {
+const checkboxControl = ({ friends }) => {
   const units = ({ id, name }) => html`
     <input id=${id} name=${id} type="checkbox" />
 
-    ${name && label(name, id)}
+    ${name && labelControl(name, id)}
   `;
 
   return html`
@@ -124,14 +120,15 @@ const checkbox = ({ friends }) => {
 
 // 表单控件工厂
 const Z: ZFactory = {
-  select,
-  input,
-  password,
-  number,
-  tel,
-  checkbox
+  checkbox: checkboxControl,
+  input: inputControl,
+  number: numberControl,
+  password: passwordControl,
+  select: selectControl,
+  tel: telControl
 };
 
+// tslint:disable-next-line: no-console
 const form = ({ data, id, onSubmit = formData => console.log(formData) }) => {
   const submit: EventListener = event => {
     event.preventDefault();
@@ -150,4 +147,4 @@ const form = ({ data, id, onSubmit = formData => console.log(formData) }) => {
   `;
 };
 
-render(form({ data: MOCK, id: "signup" }), document.getElementById("root"));
+render(form({ data: MOCK, id: "sign-up" }), document.getElementById("root"));
